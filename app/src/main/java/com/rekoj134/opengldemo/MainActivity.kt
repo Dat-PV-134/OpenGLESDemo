@@ -19,9 +19,5 @@ class MainActivity : AppCompatActivity() {
         binding.myGlSurfaceView.setEGLContextClientVersion(2)
         myRenderer = MyGLRender()
         binding.myGlSurfaceView.setRenderer(myRenderer)
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            myRenderer.update()
-        }, 3000)
     }
 }
