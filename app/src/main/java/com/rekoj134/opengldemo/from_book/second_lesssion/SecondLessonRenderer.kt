@@ -97,7 +97,7 @@ class SecondLessonRenderer(private val context: Context) : Renderer {
         glUniform4f(uColorLocation, 1.0f, 0f, 0f, 1.0f)
         glDrawArrays(GL_LINES, 6, 2)
 
-        glUniform4f(uColorLocation, 0.0f, 0.0f, 0.1f, 1.0f)
+        glUniform4f(uColorLocation, 0.0f, 0.0f, 1.0f, 1.0f)
         glDrawArrays(GL_POINTS, 8, 1)
 
         glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f)
