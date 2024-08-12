@@ -5,12 +5,7 @@ import android.content.Context
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.rekoj134.opengldemo.R
-import com.rekoj134.opengldemo.from_book.third_lesson.ThirdLessonRenderer
 
 class Chapter5Activity : AppCompatActivity() {
     private lateinit var glSurfaceView: GLSurfaceView
@@ -27,7 +22,7 @@ class Chapter5Activity : AppCompatActivity() {
 
         if (supportsEs2) {
             glSurfaceView.setEGLContextClientVersion(2)
-            glSurfaceView.setRenderer(ThirdLessonRenderer(this@Chapter5Activity))
+            glSurfaceView.setRenderer(Chapter5Renderer(this@Chapter5Activity))
             rendererSet = true
         } else {
             Toast.makeText(this@Chapter5Activity, "This device doesn't support OpenGL ES 2.0", Toast.LENGTH_SHORT).show()

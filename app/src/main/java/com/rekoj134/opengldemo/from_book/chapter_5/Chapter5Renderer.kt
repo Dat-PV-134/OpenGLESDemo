@@ -3,6 +3,7 @@ package com.rekoj134.opengldemo.from_book.chapter_5
 import android.content.Context
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
+import android.opengl.Matrix.orthoM
 import com.rekoj134.opengldemo.R
 import com.rekoj134.opengldemo.util.LoggerConfig
 import com.rekoj134.opengldemo.util.ShaderHelper
@@ -16,11 +17,12 @@ import javax.microedition.khronos.opengles.GL10
 class Chapter5Renderer(private val context: Context) : GLSurfaceView.Renderer {
     companion object {
         private const val BYTES_PER_FLOAT = 4
-        private const val U_COLOR = "u_Color"
         private const val A_POSITION = "a_Position"
+        private const val A_COLOR = "a_Color"
+        private const val U_MATRIX = "u_Matrix"
     }
 
-    private val A_COLOR = "a_Color"
+    private val projectionMatrix by lazy { FloatArray(16) }
     private val COLOR_COMPONENT_COUNT = 3
     private val POSITION_COMPONENT_COUNT = 2
     private val STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT
@@ -28,21 +30,22 @@ class Chapter5Renderer(private val context: Context) : GLSurfaceView.Renderer {
     private var program = 0
     private var aPositionLocation = 0
     private var aColorLocation = 0
+    private var uMatrixLocation = 0
 
     init {
         val tableVertices = floatArrayOf(
             0f, 0f, 1f, 1f, 1f,
-            -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
-            0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
-            0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
-            -0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
-            -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
+            -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+            0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+            0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+            -0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+            -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
 
             -0.5f, 0f, 1f, 0f, 0f,
             0.5f, 0f, 1f, 0f, 0f,
 
-            0f, -0.25f, 0f, 0f, 1f,
-            0f, 0.25f, 1f, 0f, 0f)
+            0f, -0.4f, 0f, 0f, 1f,
+            0f, 0.4f, 1f, 0f, 0f)
 
         vertexData = ByteBuffer.allocateDirect(tableVertices.count() * BYTES_PER_FLOAT).order(
             ByteOrder.nativeOrder()).asFloatBuffer()
@@ -67,6 +70,7 @@ class Chapter5Renderer(private val context: Context) : GLSurfaceView.Renderer {
 
         aColorLocation = GLES20.glGetAttribLocation(program, A_COLOR)
         aPositionLocation = GLES20.glGetAttribLocation(program, A_POSITION)
+        uMatrixLocation = GLES20.glGetUniformLocation(program, U_MATRIX)
 
         vertexData.position(0)
         GLES20.glVertexAttribPointer(
@@ -92,11 +96,18 @@ class Chapter5Renderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
+        val aspectRatio = if (width > height) width.toFloat() / height else height.toFloat() / width
+        if (width > height) {
+            orthoM(projectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f)
+        } else {
+            orthoM(projectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f)
+        }
         GLES20.glViewport(0, 0, width, height)
     }
 
     override fun onDrawFrame(gl: GL10?) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
+        GLES20.glUniformMatrix4fv(uMatrixLocation, 1, false, projectionMatrix, 0)
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, 6)
         GLES20.glDrawArrays(GLES20.GL_LINES, 6, 2)
         GLES20.glDrawArrays(GLES20.GL_POINTS, 8, 1)
