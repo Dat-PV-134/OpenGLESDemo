@@ -17,10 +17,7 @@
         android:theme="@style/Theme.OpenGLDemo"
         tools:targetApi="31">
         <activity
-            android:name=".test.TestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".from_book.chapter_5.Chapter5Activity"
+            android:name=".from_book.chapter_6.Chapter6Activity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".test.TestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".from_book.chapter_5.Chapter5Activity"
+            android:exported="false"/>
         <activity
             android:name=".from_book.third_lesson.ThirdLessonActivity"
             android:exported="false" />
@@ -41,5 +44,4 @@
             android:name=".MainActivity"
             android:exported="false" />
     </application>
-
 </manifest>
