@@ -1,6 +1,7 @@
 package com.rekoj134.opengldemo.from_book.programs
 
 import android.content.Context
+import android.opengl.GLES20.glGetUniformLocation
 import android.opengl.GLES20.glUseProgram
 import com.rekoj134.opengldemo.util.ShaderHelper
 import com.rekoj134.opengldemo.util.TextResourceReader
@@ -9,6 +10,7 @@ open class ShaderProgram {
     // Uniform constants
     protected val U_MATRIX = "u_Matrix"
     protected val U_TEXTURE_UNIT = "u_TextureUnit"
+    protected val U_COLOR = "u_Color"
 
     // Attribute constants
     protected val A_POSTION = "a_Position"

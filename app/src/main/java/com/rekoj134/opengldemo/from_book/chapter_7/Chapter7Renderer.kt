@@ -34,8 +34,8 @@ class Chapter7Renderer(private val context: Context) : GLSurfaceView.Renderer {
 
     private val projectionMatrix by lazy { FloatArray(16) }
     private val modelMatrix by lazy { FloatArray(16) }
-    private val table by lazy { Table() }
-    private val mallet by lazy { Mallet() }
+//    private val table by lazy { Table() }
+//    private val mallet by lazy { Mallet() }
     private lateinit var textureProgram: TextureShaderProgram
     private lateinit var colorProgram: ColorShaderProgram
     private var texture: Int = 0
@@ -63,12 +63,12 @@ class Chapter7Renderer(private val context: Context) : GLSurfaceView.Renderer {
 
         textureProgram.useProgram()
         textureProgram.setUniforms(projectionMatrix, texture)
-        table.bindData(textureProgram)
-        table.draw()
+//        table.bindData(textureProgram)
+//        table.draw()
 
         colorProgram.useProgram()
-        colorProgram.setUniform(projectionMatrix)
-        mallet.bindData(colorProgram)
-        mallet.draw()
+//        colorProgram.setUniform(projectionMatrix)
+//        mallet.bindData(colorProgram)
+//        mallet.draw()
     }
 }
