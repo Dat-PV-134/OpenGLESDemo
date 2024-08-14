@@ -34,7 +34,7 @@
             android:exported="false" />
         <activity
             android:name=".test.TestActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".from_book.chapter_5.Chapter5Activity"
             android:exported="false" />
