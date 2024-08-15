@@ -29,7 +29,7 @@ class TestActivity : AppCompatActivity() {
             return
         }
 
-        setContentView(R.layout.activity_test)
+        setContentView(glSurfaceView)
     }
 
     override fun onResume() {
