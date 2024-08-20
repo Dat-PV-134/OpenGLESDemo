@@ -103,33 +103,33 @@ class Chapter9Renderer(private val context: Context) : GLSurfaceView.Renderer {
 
     fun handleTouchPress(normalizeX: Float, normalizeY: Float) {
         Log.e("ANCUTKO", "$normalizeX - $normalizeY")
-        val ray = convertNormalized2DPointToRay(normalizeX, normalizeY)
-        val malletBoundingSphere = Sphere(Geometry.Point(blueMalletPosition.x, blueMalletPosition.y, blueMalletPosition.z), mallet.height/2f)
-        malletPressed = Geometry.intersects(malletBoundingSphere, ray)
+//        val ray = convertNormalized2DPointToRay(normalizeX, normalizeY)
+//        val malletBoundingSphere = Sphere(Geometry.Point(blueMalletPosition.x, blueMalletPosition.y, blueMalletPosition.z), mallet.height/2f)
+//        malletPressed = Geometry.intersects(malletBoundingSphere, ray)
     }
 
     fun handleTouchDrag(normalizeX: Float, normalizeY: Float) {
         Log.e("ANCUTKO", "$normalizeX - $normalizeY")
     }
 
-    private fun convertNormalized2DPointToRay(normalizeX: Float, normalizeY: Float) : Ray {
-        val nearPointNdc = floatArrayOf(normalizeX, normalizeY, -1f, 1f)
-        val farPointNdc = floatArrayOf(normalizeX, normalizeY, 1f, 1f)
-
-        val nearPointWorld = FloatArray(4)
-        val farPointWorld = FloatArray(4)
-
-        multiplyMV(nearPointWorld, 0, invertedViewProjectionMatrix, 0, nearPointNdc, 0)
-        multiplyMV(farPointWorld, 0, invertedViewProjectionMatrix, 0, farPointNdc, 0)
-
-        divideByW(nearPointWorld)
-        divideByW(farPointWorld)
-
-        val nearPointRay = Geometry.Point(nearPointWorld[0], nearPointWorld[1], nearPointWorld[2])
-        val farPointRay = Geometry.Point(farPointWorld[0], farPointWorld[1], farPointWorld[2])
-
-        return Ray(nearPointRay, Geometry.vectorBetween(nearPointRay, farPointRay))
-    }
+//    private fun convertNormalized2DPointToRay(normalizeX: Float, normalizeY: Float) : Ray {
+//        val nearPointNdc = floatArrayOf(normalizeX, normalizeY, -1f, 1f)
+//        val farPointNdc = floatArrayOf(normalizeX, normalizeY, 1f, 1f)
+//
+//        val nearPointWorld = FloatArray(4)
+//        val farPointWorld = FloatArray(4)
+//
+//        multiplyMV(nearPointWorld, 0, invertedViewProjectionMatrix, 0, nearPointNdc, 0)
+//        multiplyMV(farPointWorld, 0, invertedViewProjectionMatrix, 0, farPointNdc, 0)
+//
+//        divideByW(nearPointWorld)
+//        divideByW(farPointWorld)
+//
+//        val nearPointRay = Geometry.Point(nearPointWorld[0], nearPointWorld[1], nearPointWorld[2])
+//        val farPointRay = Geometry.Point(farPointWorld[0], farPointWorld[1], farPointWorld[2])
+//
+//        return Ray(nearPointRay, Geometry.vectorBetween(nearPointRay, farPointRay))
+//    }
 
     private fun divideByW(vector: FloatArray) {
         vector[0] /= vector[3]

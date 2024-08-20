@@ -34,12 +34,12 @@ object Geometry {
         return Vector(to.x - from.x, to.y - from.y, to.z - from.z)
     }
 
-    fun intersects(sphere: Sphere, ray: Ray) : Boolean {
-        return distanceBetween(sphere.center, ray) < sphere.radius
-    }
+//    fun intersects(sphere: Sphere, ray: Ray) : Boolean {
+//        return distanceBetween(sphere.center, ray) < sphere.radius
+//    }
 
-    fun distanceBetween(point: Point, ray: Ray) : Float {
-        val p1ToPoint = vectorBetween(ray.point, point)
-        val p2ToPoint = vectorBetween(ray.point.translate(ray.vector), point)
-    }
+//    fun distanceBetween(point: Point, ray: Ray) : Float {
+//        val p1ToPoint = vectorBetween(ray.point, point)
+//        val p2ToPoint = vectorBetween(ray.point.translate(ray.vector), point)
+//    }
 }
