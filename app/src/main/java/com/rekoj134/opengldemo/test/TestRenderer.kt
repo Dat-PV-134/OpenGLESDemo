@@ -31,6 +31,7 @@ import java.nio.ByteOrder
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
+import kotlin.math.PI
 
 class TestRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private val modelMatrix by lazy { FloatArray(16) }
@@ -38,7 +39,7 @@ class TestRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private val projectionMatrix by lazy { FloatArray(16) }
     private val modelViewProjectionMatrix by lazy { FloatArray(16) }
 
-    private var triangle1Vertices: FloatBuffer
+    private var cubeVertices: FloatBuffer
 
     private var uMatrixLocation = 0
     private var aPositionLocation = 0
@@ -51,21 +52,92 @@ class TestRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     init {
         val data = floatArrayOf(
-            -0.5f, -0.25f, 0.0f,
-            1.0f, 0.0f, 0.0f, 1.0f,
-            0.5f, -0.25f, 0.0f,
-            0.0f, 0.0f, 1.0f, 1.0f,
-            0.0f, 0.559016994f, 0.0f,
-            0.0f, 1.0f, 0.0f, 1.0f
+            -0.5f, 0.5f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+            -0.5f, -0.5f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            0.5f, 0.5f, 0.0f,
+            1.0f, 0.0f, 0.0f, 0.6f,
+            0.5f, 0.5f, 0.0f,
+            1.0f, 0.0f, 0.0f, 0.6f
+            -0.5f, -0.5f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            0.5f, -0.5f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+
+            0.5f, 0.5f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+            0.5f, -0.5f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            0.5f, 0.5f, -1.0f,
+            1.0f, 0.0f, 0.0f, 0.6f,
+            0.5f, 0.5f, -1.0f,
+            1.0f, 0.0f, 0.0f, 0.6f,
+            0.5f, -0.5f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            0.5f, -0.5f, -1.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+
+            0.5f, 0.5f, -1.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+            0.5f, -0.5f, -1.0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            -0.5f, 0.5f, -1.0f,
+            1.0f, 0.0f, 0.0f, 0.6f
+            -0.5f, 0.5f, -1.0f,
+            1.0f, 0.0f, 0.0f, 0.6f,
+            0.5f, -0.5f, -1.0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            -0.5f, -0.5f, -1.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+
+            -0.5f, 0.5f, -1.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+            -0.5f, -0.5f, -1.0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            -0.5f, 0.5f, 0f,
+            1.0f, 0.0f, 0.0f, 0.6f,
+            -0.5f, 0.5f, 0f,
+            1.0f, 0.0f, 0.0f, 0.6f,
+            -0.5f, -0.5f, -1.0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            -0.5f, -0.5f, 0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+
+            -0.5f, -0.5f, -1.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+            -0.5f, -0.5f, 0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            0.5f, -0.5f, 0f,
+            1.0f, 0.0f, 0.0f, 0.6f,
+            0.5f, -0.5f, 0f,
+            1.0f, 0.0f, 0.0f, 0.6f,
+            0.5f, -0.5f, -1.0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            -0.5f, -0.5f, -1.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+
+            -0.5f, 0.5f, -1.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
+            -0.5f, 0.5f, 0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            0.5f, 0.5f, 0f,
+            1.0f, 0.0f, 0.0f, 0.6f,
+            0.5f, 0.5f, 0f,
+            1.0f, 0.0f, 0.0f, 0.6f,
+            0.5f, 0.5f, -1.0f,
+            0.0f, 0.0f, 1.0f, 0.6f,
+            -0.5f, 0.5f, -1.0f,
+            0.0f, 1.0f, 0.0f, 0.6f,
         )
 
-        triangle1Vertices = ByteBuffer.allocateDirect(data.size * BYTE_PER_FLOAT).order(ByteOrder.nativeOrder()).asFloatBuffer()
-        triangle1Vertices.put(data)
+        cubeVertices = ByteBuffer.allocateDirect(data.size * BYTE_PER_FLOAT).order(ByteOrder.nativeOrder()).asFloatBuffer()
+        cubeVertices.put(data)
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         glClearColor(0.5f, 0.5f, 0.5f, 0.5f)
-        setLookAtM(viewMatrix, 0, 0f, 0f, 2f, 0f, 0f, -5f, 0f, 1f, 0f)
+        setLookAtM(viewMatrix, 0, -2f, 2f, 5f, 2f, -1.5f, -5f, 0f, 1f, 0f)
         val vertexShader = ShaderHelper.compileVertexShader(TextResourceReader.readTextFileFromResource(context, R.raw.test_vertex_shader))
         val fragmentShader = ShaderHelper.compileFragmentShader(TextResourceReader.readTextFileFromResource(context, R.raw.test_fragment_shader))
         val program = ShaderHelper.linkProgram(vertexShader, fragmentShader)
@@ -82,28 +154,26 @@ class TestRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     override fun onDrawFrame(gl: GL10?) {
         glClear(GLES20.GL_DEPTH_BUFFER_BIT or GL_COLOR_BUFFER_BIT)
-
-        val time = SystemClock.uptimeMillis() % 10000L
-        val angleInDegrees = (360.0f / 10000.0f) * (time.toInt())
-
         setIdentityM(modelMatrix, 0)
+        val time = SystemClock.uptimeMillis() % 10000L
+        val angleInDegrees = (360.0f / 10000.0f) * (time.toInt()) * 3f
+        rotateM(modelMatrix, 0, angleInDegrees, 0f, 1f, 0f)
         rotateM(modelMatrix, 0, angleInDegrees, 0f, 0f, 1f)
-        translateM(modelMatrix, 0, 0f, 0f, -2f)
         drawTriangle()
     }
 
     private fun drawTriangle() {
-        triangle1Vertices.position(0)
-        glVertexAttribPointer(aPositionLocation, POSTION_COMPONEN_COUNT, GL_FLOAT, false, STRIDE, triangle1Vertices)
+        cubeVertices.position(0)
+        glVertexAttribPointer(aPositionLocation, POSTION_COMPONEN_COUNT, GL_FLOAT, false, STRIDE, cubeVertices)
         glEnableVertexAttribArray(aPositionLocation)
 
-        triangle1Vertices.position(POSTION_COMPONEN_COUNT)
-        glVertexAttribPointer(aColorLocation, COLOR_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, triangle1Vertices)
+        cubeVertices.position(POSTION_COMPONEN_COUNT)
+        glVertexAttribPointer(aColorLocation, COLOR_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, cubeVertices)
         glEnableVertexAttribArray(aColorLocation)
 
         multiplyMM(modelViewProjectionMatrix, 0, viewMatrix, 0, modelMatrix, 0)
         multiplyMM(modelViewProjectionMatrix, 0, projectionMatrix, 0, modelViewProjectionMatrix, 0)
         glUniformMatrix4fv(uMatrixLocation, 1, false, modelViewProjectionMatrix, 0)
-        glDrawArrays(GL_TRIANGLES, 0, 3)
+        glDrawArrays(GL_TRIANGLES, 0, 36)
     }
 }
