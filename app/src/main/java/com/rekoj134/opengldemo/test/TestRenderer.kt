@@ -53,82 +53,82 @@ class TestRenderer(private val context: Context) : GLSurfaceView.Renderer {
     init {
         val data = floatArrayOf(
             -0.5f, 0.5f, 0.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
             -0.5f, -0.5f, 0.0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             0.5f, 0.5f, 0.0f,
-            1.0f, 0.0f, 0.0f, 0.6f,
+            1.0f, 0.5f, 0.5f, 0.8f,
             0.5f, 0.5f, 0.0f,
-            1.0f, 0.0f, 0.0f, 0.6f
+            1.0f, 0.5f, 0.5f, 0.8f,
             -0.5f, -0.5f, 0.0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             0.5f, -0.5f, 0.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
 
             0.5f, 0.5f, 0.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
             0.5f, -0.5f, 0.0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             0.5f, 0.5f, -1.0f,
-            1.0f, 0.0f, 0.0f, 0.6f,
+            1.0f, 0.5f, 0.5f, 0.8f,
             0.5f, 0.5f, -1.0f,
-            1.0f, 0.0f, 0.0f, 0.6f,
+            1.0f, 0.5f, 0.5f, 0.8f,
             0.5f, -0.5f, 0.0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             0.5f, -0.5f, -1.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
 
             0.5f, 0.5f, -1.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
             0.5f, -0.5f, -1.0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             -0.5f, 0.5f, -1.0f,
-            1.0f, 0.0f, 0.0f, 0.6f
+            1.0f, 0.5f, 0.5f, 0.8f,
             -0.5f, 0.5f, -1.0f,
-            1.0f, 0.0f, 0.0f, 0.6f,
+            1.0f, 0.5f, 0.5f, 0.8f,
             0.5f, -0.5f, -1.0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             -0.5f, -0.5f, -1.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
 
             -0.5f, 0.5f, -1.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
             -0.5f, -0.5f, -1.0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             -0.5f, 0.5f, 0f,
-            1.0f, 0.0f, 0.0f, 0.6f,
+            1.0f, 0.5f, 0.5f, 0.8f,
             -0.5f, 0.5f, 0f,
-            1.0f, 0.0f, 0.0f, 0.6f,
+            1.0f, 0.5f, 0.5f, 0.8f,
             -0.5f, -0.5f, -1.0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             -0.5f, -0.5f, 0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
 
             -0.5f, -0.5f, -1.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
             -0.5f, -0.5f, 0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             0.5f, -0.5f, 0f,
-            1.0f, 0.0f, 0.0f, 0.6f,
+            1.0f, 0.5f, 0.5f, 0.8f,
             0.5f, -0.5f, 0f,
-            1.0f, 0.0f, 0.0f, 0.6f,
+            1.0f, 0.5f, 0.5f, 0.8f,
             0.5f, -0.5f, -1.0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             -0.5f, -0.5f, -1.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
 
             -0.5f, 0.5f, -1.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.5f, 0.8f,
             -0.5f, 0.5f, 0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             0.5f, 0.5f, 0f,
-            1.0f, 0.0f, 0.0f, 0.6f,
+            1.0f, 0.5f, 0.5f, 0.8f,
             0.5f, 0.5f, 0f,
-            1.0f, 0.0f, 0.0f, 0.6f,
+            1.0f, 0.5f, 0.5f, 0.8f,
             0.5f, 0.5f, -1.0f,
-            0.0f, 0.0f, 1.0f, 0.6f,
+            0.0f, 0.5f, 1.0f, 0.8f,
             -0.5f, 0.5f, -1.0f,
-            0.0f, 1.0f, 0.0f, 0.6f,
+            0.0f, 1.0f, 0.0f, 0.6f
         )
 
         cubeVertices = ByteBuffer.allocateDirect(data.size * BYTE_PER_FLOAT).order(ByteOrder.nativeOrder()).asFloatBuffer()
@@ -136,7 +136,7 @@ class TestRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-        glClearColor(0.5f, 0.5f, 0.5f, 0.5f)
+        glClearColor(0f, 0f, 0f, 0f)
         setLookAtM(viewMatrix, 0, -2f, 2f, 5f, 2f, -1.5f, -5f, 0f, 1f, 0f)
         val vertexShader = ShaderHelper.compileVertexShader(TextResourceReader.readTextFileFromResource(context, R.raw.test_vertex_shader))
         val fragmentShader = ShaderHelper.compileFragmentShader(TextResourceReader.readTextFileFromResource(context, R.raw.test_fragment_shader))
@@ -156,9 +156,10 @@ class TestRenderer(private val context: Context) : GLSurfaceView.Renderer {
         glClear(GLES20.GL_DEPTH_BUFFER_BIT or GL_COLOR_BUFFER_BIT)
         setIdentityM(modelMatrix, 0)
         val time = SystemClock.uptimeMillis() % 10000L
-        val angleInDegrees = (360.0f / 10000.0f) * (time.toInt()) * 3f
+        val angleInDegrees = (360.0f / 10000.0f) * (time.toInt()) * 5f
         rotateM(modelMatrix, 0, angleInDegrees, 0f, 1f, 0f)
         rotateM(modelMatrix, 0, angleInDegrees, 0f, 0f, 1f)
+//        rotateM(modelMatrix, 0, angleInDegrees, 1f, 0f, 0f)
         drawTriangle()
     }
 
