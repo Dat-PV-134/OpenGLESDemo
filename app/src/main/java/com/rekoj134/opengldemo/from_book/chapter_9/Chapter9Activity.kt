@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.opengl.GLSurfaceView
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -42,7 +43,7 @@ class Chapter9Activity : AppCompatActivity() {
         glSurfaceView.setOnTouchListener { v, event ->
             event?.let {
                 val normalizeX = (event.x / v.width) * 2 - 1
-                val normalizeY = -(event.y / v.height) * 2 - 1
+                val normalizeY = -((event.y / v.height) * 2 - 1)
 
                 if (it.action == MotionEvent.ACTION_DOWN) {
                     glSurfaceView.queueEvent { myRenderer.handleTouchPress(normalizeX, normalizeY) }
@@ -51,7 +52,7 @@ class Chapter9Activity : AppCompatActivity() {
                 }
                 true
             }
-            false
+            true
         }
 
         setContentView(glSurfaceView)

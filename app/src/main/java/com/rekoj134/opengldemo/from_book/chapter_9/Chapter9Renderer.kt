@@ -14,6 +14,7 @@ import com.rekoj134.opengldemo.from_book.objects.Table
 import com.rekoj134.opengldemo.from_book.programs.ColorShaderProgram
 import com.rekoj134.opengldemo.from_book.programs.TextureShaderProgram
 import com.rekoj134.opengldemo.util.Geometry
+import com.rekoj134.opengldemo.util.Geometry.intersectionPoint
 import com.rekoj134.opengldemo.util.MatrixHelper
 import com.rekoj134.opengldemo.util.TextureHelper
 import javax.microedition.khronos.egl.EGLConfig
@@ -83,7 +84,7 @@ class Chapter9Renderer(private val context: Context) : GLSurfaceView.Renderer {
         puck.bindData(colorProgram)
         puck.draw()
 
-        positionObjectInScene(-0.15f, mallet.height / 2f, 0.4f)
+        positionObjectInScene(blueMalletPosition.x, blueMalletPosition.y, blueMalletPosition.z)
         colorProgram.setUniform(modelViewProjectionMatrix, 0f, 0f, 1f)
         mallet.bindData(colorProgram)
         mallet.draw()
@@ -102,34 +103,44 @@ class Chapter9Renderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     fun handleTouchPress(normalizeX: Float, normalizeY: Float) {
-        Log.e("ANCUTKO", "$normalizeX - $normalizeY")
-//        val ray = convertNormalized2DPointToRay(normalizeX, normalizeY)
-//        val malletBoundingSphere = Sphere(Geometry.Point(blueMalletPosition.x, blueMalletPosition.y, blueMalletPosition.z), mallet.height/2f)
-//        malletPressed = Geometry.intersects(malletBoundingSphere, ray)
+        val ray = convertNormalized2DPointToRay(normalizeX, normalizeY)
+        val malletBoundingSphere = Geometry.Sphere(
+            Geometry.Point(
+                blueMalletPosition.x,
+                blueMalletPosition.y,
+                blueMalletPosition.z
+            ), mallet.height / 2f
+        )
+        malletPressed = Geometry.intersects(malletBoundingSphere, ray)
     }
 
     fun handleTouchDrag(normalizeX: Float, normalizeY: Float) {
-        Log.e("ANCUTKO", "$normalizeX - $normalizeY")
+        if (malletPressed) {
+            val ray = convertNormalized2DPointToRay(normalizeX, normalizeY)
+            val plane = Geometry.Plane(Geometry.Point(0f, 0f, 0f), Geometry.Vector(0f, 1f, 0f))
+            val touchedPoint = intersectionPoint(ray, plane)
+            blueMalletPosition = Geometry.Point(touchedPoint.x, mallet.height / 2f, touchedPoint.z)
+        }
     }
 
-//    private fun convertNormalized2DPointToRay(normalizeX: Float, normalizeY: Float) : Ray {
-//        val nearPointNdc = floatArrayOf(normalizeX, normalizeY, -1f, 1f)
-//        val farPointNdc = floatArrayOf(normalizeX, normalizeY, 1f, 1f)
-//
-//        val nearPointWorld = FloatArray(4)
-//        val farPointWorld = FloatArray(4)
-//
-//        multiplyMV(nearPointWorld, 0, invertedViewProjectionMatrix, 0, nearPointNdc, 0)
-//        multiplyMV(farPointWorld, 0, invertedViewProjectionMatrix, 0, farPointNdc, 0)
-//
-//        divideByW(nearPointWorld)
-//        divideByW(farPointWorld)
-//
-//        val nearPointRay = Geometry.Point(nearPointWorld[0], nearPointWorld[1], nearPointWorld[2])
-//        val farPointRay = Geometry.Point(farPointWorld[0], farPointWorld[1], farPointWorld[2])
-//
-//        return Ray(nearPointRay, Geometry.vectorBetween(nearPointRay, farPointRay))
-//    }
+    private fun convertNormalized2DPointToRay(normalizeX: Float, normalizeY: Float) : Geometry.Ray {
+        val nearPointNdc = floatArrayOf(normalizeX, normalizeY, -1f, 1f)
+        val farPointNdc = floatArrayOf(normalizeX, normalizeY, 1f, 1f)
+
+        val nearPointWorld = FloatArray(4)
+        val farPointWorld = FloatArray(4)
+
+        multiplyMV(nearPointWorld, 0, invertedViewProjectionMatrix, 0, nearPointNdc, 0)
+        multiplyMV(farPointWorld, 0, invertedViewProjectionMatrix, 0, farPointNdc, 0)
+
+        divideByW(nearPointWorld)
+        divideByW(farPointWorld)
+
+        val nearPointRay = Geometry.Point(nearPointWorld[0], nearPointWorld[1], nearPointWorld[2])
+        val farPointRay = Geometry.Point(farPointWorld[0], farPointWorld[1], farPointWorld[2])
+
+        return Geometry.Ray(nearPointRay, Geometry.vectorBetween(nearPointRay, farPointRay))
+    }
 
     private fun divideByW(vector: FloatArray) {
         vector[0] /= vector[3]
