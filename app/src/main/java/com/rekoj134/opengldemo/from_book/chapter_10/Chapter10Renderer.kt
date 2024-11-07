@@ -27,14 +27,14 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
     private val viewMatrix = FloatArray(16)
     private val viewProjectionMatrix = FloatArray(16)
 
-    private var angleVarianceInDegree = 13f
+    private var angleVarianceInDegree = 10f
     private var speedVariance = 6f
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         GLES20.glClearColor(0.0f, 0.0f, 0f, 0f)
 
         particleProgram = ParticleShaderProgram(context)
-        particleSystem = ParticleSystem(3000)
+        particleSystem = ParticleSystem(2000)
         globalStartTime = System.nanoTime()
 
         val particleDirection = Geometry.Vector(0f, 0.5f, 0f)
