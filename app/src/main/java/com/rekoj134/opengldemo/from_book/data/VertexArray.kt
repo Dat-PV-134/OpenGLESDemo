@@ -10,20 +10,22 @@ import java.nio.FloatBuffer
 import javax.microedition.khronos.opengles.GL
 
 class VertexArray(vertexData: FloatArray) {
-    private lateinit var floatBuffer: FloatBuffer
-
-    init {
-        floatBuffer = ByteBuffer
-            .allocateDirect(vertexData.count() * BYTES_PER_FLOAT)
-            .order(ByteOrder.nativeOrder())
-            .asFloatBuffer()
-            .put(vertexData)
-    }
+    private var floatBuffer: FloatBuffer = ByteBuffer
+        .allocateDirect(vertexData.count() * BYTES_PER_FLOAT)
+        .order(ByteOrder.nativeOrder())
+        .asFloatBuffer()
+        .put(vertexData)
 
     fun setVertexAttributePointer(dataOffset: Int, attributeLocation: Int, componentCount: Int, stride: Int) {
         floatBuffer.position(dataOffset)
         GLES20.glVertexAttribPointer(attributeLocation, componentCount, GL_FLOAT, false, stride, floatBuffer)
         glEnableVertexAttribArray(attributeLocation)
+        floatBuffer.position(0)
+    }
+
+    fun updateBuffer(vertexData: FloatArray, start: Int, count: Int) {
+        floatBuffer.position(start)
+        floatBuffer.put(vertexData, start, count)
         floatBuffer.position(0)
     }
 }

@@ -8,6 +8,10 @@ import com.rekoj134.opengldemo.util.TextResourceReader
 
 open class ShaderProgram {
     // Uniform constants
+    protected val U_TIME = "u_Time"
+    protected val A_DIRECTION_VECTOR = "a_DirectionVector";
+    protected val A_PARTICLE_START_TIME = "a_ParticleStartTime";
+
     protected val U_MATRIX = "u_Matrix"
     protected val U_TEXTURE_UNIT = "u_TextureUnit"
     protected val U_COLOR = "u_Color"
