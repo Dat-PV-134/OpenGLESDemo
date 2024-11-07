@@ -2,6 +2,10 @@ package com.rekoj134.opengldemo.from_book.chapter_10
 
 import android.content.Context
 import android.graphics.Color
+import android.opengl.GLES10.GL_BLEND
+import android.opengl.GLES10.GL_ONE
+import android.opengl.GLES10.glBlendFunc
+import android.opengl.GLES10.glEnable
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.multiplyMM
@@ -66,6 +70,8 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
         GLES20.glViewport(0, 0, width, height)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_ONE, GL_ONE)
 
         MatrixHelper.perspectiveM(projectionMatrix, 45f, width.toFloat()/height, 1f, 10f)
 
