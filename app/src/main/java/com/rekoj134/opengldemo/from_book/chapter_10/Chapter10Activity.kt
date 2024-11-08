@@ -16,7 +16,7 @@ class Chapter10Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chapter10)
 
-        glSurfaceView = GLSurfaceView(this@Chapter10Activity)
+        glSurfaceView = findViewById(R.id.myGlSurfaceView)
 
         val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val configurationInfo = activityManager.deviceConfigurationInfo
@@ -30,8 +30,6 @@ class Chapter10Activity : AppCompatActivity() {
             Toast.makeText(this@Chapter10Activity, "This device doesn't support OpenGL ES 2.0", Toast.LENGTH_SHORT).show()
             return
         }
-
-        setContentView(glSurfaceView)
     }
 
     override fun onResume() {

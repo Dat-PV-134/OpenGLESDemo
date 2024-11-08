@@ -31,14 +31,15 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
     private val viewMatrix = FloatArray(16)
     private val viewProjectionMatrix = FloatArray(16)
 
-    private var angleVarianceInDegree = 10f
-    private var speedVariance = 6f
+    private var angleVarianceInDegree = 16f
+    private var speedVariance = 10f
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-        GLES20.glClearColor(0.0f, 0.0f, 0f, 0f)
+        GLES20.glEnable(GLES20.GL_BLEND)
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA)
 
         particleProgram = ParticleShaderProgram(context)
-        particleSystem = ParticleSystem(2000)
+        particleSystem = ParticleSystem(3000)
         globalStartTime = System.nanoTime()
 
         val particleDirection = Geometry.Vector(0f, 0.5f, 0f)
@@ -76,12 +77,13 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
         MatrixHelper.perspectiveM(projectionMatrix, 45f, width.toFloat()/height, 1f, 10f)
 
         setIdentityM(viewMatrix, 0)
-        translateM(viewMatrix, 0, 0f, -3f, -10f)
+        translateM(viewMatrix, 0, 0f, -3.9f, -10f)
         multiplyMM(viewProjectionMatrix, 0, projectionMatrix, 0, viewMatrix, 0)
     }
 
     override fun onDrawFrame(gl: GL10?) {
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
 
         val currentTime = (System.nanoTime() - globalStartTime) / 1000000000f
         redParticleShooter.addParticles(particleSystem, currentTime, 5)
