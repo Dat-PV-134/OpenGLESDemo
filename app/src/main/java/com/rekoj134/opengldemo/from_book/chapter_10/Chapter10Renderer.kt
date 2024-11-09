@@ -11,11 +11,13 @@ import android.opengl.GLSurfaceView
 import android.opengl.Matrix.multiplyMM
 import android.opengl.Matrix.setIdentityM
 import android.opengl.Matrix.translateM
+import com.rekoj134.opengldemo.R
 import com.rekoj134.opengldemo.from_book.objects.ParticleShooter
 import com.rekoj134.opengldemo.from_book.objects.ParticleSystem
 import com.rekoj134.opengldemo.from_book.programs.ParticleShaderProgram
 import com.rekoj134.opengldemo.util.Geometry
 import com.rekoj134.opengldemo.util.MatrixHelper
+import com.rekoj134.opengldemo.util.TextureHelper
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -31,8 +33,9 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
     private val viewMatrix = FloatArray(16)
     private val viewProjectionMatrix = FloatArray(16)
 
-    private var angleVarianceInDegree = 16f
+    private var angleVarianceInDegree = 5f
     private var speedVariance = 10f
+    private var texture = 0
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         GLES20.glEnable(GLES20.GL_BLEND)
@@ -45,7 +48,7 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
         val particleDirection = Geometry.Vector(0f, 0.5f, 0f)
 
         redParticleShooter = ParticleShooter(
-            Geometry.Point(-1f, 0f, 0f),
+            Geometry.Point(-1.5f, 0f, 0f),
             particleDirection,
             Color.rgb(255, 50, 5),
             angleVarianceInDegree,
@@ -61,12 +64,14 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
         )
 
         blueParticleShooter = ParticleShooter(
-            Geometry.Point(1f, 0f, 0f),
+            Geometry.Point(1.5f, 0f, 0f),
             particleDirection,
             Color.rgb(5, 50, 255),
             angleVarianceInDegree,
             speedVariance
         )
+
+        texture = TextureHelper.loadTexture(context, R.drawable.partical_texture)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -91,7 +96,7 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
         blueParticleShooter.addParticles(particleSystem, currentTime, 5)
 
         particleProgram.useProgram()
-        particleProgram.setUniforms(viewProjectionMatrix, currentTime)
+        particleProgram.setUniforms(viewProjectionMatrix, currentTime, texture)
         particleSystem.bindData(particleProgram)
         particleSystem.draw()
     }
