@@ -3,12 +3,16 @@ package com.rekoj134.opengldemo.from_book.objects
 import android.opengl.Matrix.multiplyMV
 import android.opengl.Matrix.setRotateEulerM
 import com.rekoj134.opengldemo.util.Geometry
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.Random
 
 class ParticleShooter(
     val position: Geometry.Point,
     val direction: Geometry.Vector,
-    val color: Int,
+    var color: Int,
     val angleVariance: Float,
     val speedVariance: Float
 ) {
@@ -24,11 +28,17 @@ class ParticleShooter(
         directionVector[2] = direction.z
     }
 
+    fun changeColor(color: Int) {
+        this.color = color
+    }
+
     fun addParticles(particleSystem: ParticleSystem, currentTime: Float, count: Int) {
         for (i in 0 until count) {
-            setRotateEulerM(rotationMatrix, 0, (random.nextFloat() - 0.5f) * angleVariance,
+            setRotateEulerM(
+                rotationMatrix, 0, (random.nextFloat() - 0.5f) * angleVariance,
                 (random.nextFloat() - 0.5f) * angleVariance,
-                (random.nextFloat() - 0.5f) * angleVariance)
+                (random.nextFloat() - 0.5f) * angleVariance
+            )
             multiplyMV(
                 resultVector, 0,
                 rotationMatrix, 0,
@@ -40,8 +50,10 @@ class ParticleShooter(
                 resultVector[1] * speedAdjustment,
                 resultVector[2] * speedAdjustment,
             )
-            particleSystem.addParticle(position, color, thisDirection,
-                currentTime)
+            particleSystem.addParticle(
+                position, color, thisDirection,
+                currentTime
+            )
         }
     }
 }

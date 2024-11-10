@@ -7,6 +7,7 @@ import com.rekoj134.opengldemo.from_book.constant.BYTES_PER_FLOAT
 import com.rekoj134.opengldemo.from_book.data.VertexArray
 import com.rekoj134.opengldemo.from_book.programs.ParticleShaderProgram
 import com.rekoj134.opengldemo.util.Geometry
+import kotlin.random.Random
 
 class ParticleSystem(val maxParticleCount: Int) {
     private val POSITION_COMPONENT_COUNT = 3

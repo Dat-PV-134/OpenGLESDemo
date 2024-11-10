@@ -3,10 +3,15 @@ package com.rekoj134.opengldemo.from_book.chapter_10
 import android.content.Context
 import android.graphics.Color
 import android.opengl.GLES10.GL_BLEND
-import android.opengl.GLES10.GL_ONE
 import android.opengl.GLES10.glBlendFunc
 import android.opengl.GLES10.glEnable
 import android.opengl.GLES20
+import android.opengl.GLES20.GL_DST_COLOR
+import android.opengl.GLES20.GL_ONE
+import android.opengl.GLES20.GL_ONE_MINUS_SRC_ALPHA
+import android.opengl.GLES20.GL_SRC_ALPHA
+import android.opengl.GLES20.GL_SRC_COLOR
+import android.opengl.GLES20.GL_ZERO
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.multiplyMM
 import android.opengl.Matrix.setIdentityM
@@ -20,6 +25,7 @@ import com.rekoj134.opengldemo.util.MatrixHelper
 import com.rekoj134.opengldemo.util.TextureHelper
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
+import kotlin.random.Random
 
 class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
     private lateinit var particleProgram: ParticleShaderProgram
@@ -33,8 +39,8 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
     private val viewMatrix = FloatArray(16)
     private val viewProjectionMatrix = FloatArray(16)
 
-    private var angleVarianceInDegree = 5f
-    private var speedVariance = 10f
+    private var angleVarianceInDegree = 15f
+    private var speedVariance = 5f
     private var texture = 0
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
@@ -42,15 +48,15 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA)
 
         particleProgram = ParticleShaderProgram(context)
-        particleSystem = ParticleSystem(3000)
+        particleSystem = ParticleSystem(4000)
         globalStartTime = System.nanoTime()
 
-        val particleDirection = Geometry.Vector(0f, 0.5f, 0f)
+        val particleDirection = Geometry.Vector(0.5f, 0.5f, 0f)
 
         redParticleShooter = ParticleShooter(
-            Geometry.Point(-1.5f, 0f, 0f),
-            particleDirection,
-            Color.rgb(255, 50, 5),
+            Geometry.Point(0f, -2.6f, 0f),
+            Geometry.Vector(-0.15f, 0.5f, 0f),
+            Color.rgb(89, 136, 218),
             angleVarianceInDegree,
             speedVariance
         )
@@ -58,15 +64,15 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
         greenParticleShooter = ParticleShooter(
             Geometry.Point(0f, 0f, 0f),
             particleDirection,
-            Color.rgb(25, 255, 25),
+            Color.rgb(89, 196, 218),
             angleVarianceInDegree,
             speedVariance
         )
 
         blueParticleShooter = ParticleShooter(
-            Geometry.Point(1.5f, 0f, 0f),
-            particleDirection,
-            Color.rgb(5, 50, 255),
+            Geometry.Point(0f, -2.6f, 0f),
+            Geometry.Vector(0.15f, 0.5f, 0f),
+            Color.rgb(89, 136, 218),
             angleVarianceInDegree,
             speedVariance
         )
@@ -91,8 +97,11 @@ class Chapter10Renderer(val context: Context) : GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
 
         val currentTime = (System.nanoTime() - globalStartTime) / 1000000000f
+
+//        redParticleShooter.color = Color.rgb(Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
+//        blueParticleShooter.color = Color.rgb(Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
         redParticleShooter.addParticles(particleSystem, currentTime, 5)
-        greenParticleShooter.addParticles(particleSystem, currentTime, 5)
+//        greenParticleShooter.addParticles(particleSystem, currentTime, 5)
         blueParticleShooter.addParticles(particleSystem, currentTime, 5)
 
         particleProgram.useProgram()
