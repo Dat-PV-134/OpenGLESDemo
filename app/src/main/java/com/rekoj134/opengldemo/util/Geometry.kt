@@ -25,7 +25,9 @@ object Geometry {
     }
 
     class Ray(val point: Geometry.Point, val vector: Vector) {
-
+        fun translateY(distance: Float) : Ray {
+            return Ray(Point(point.x, point.y + distance, point.z), vector)
+        }
     }
 
     class Vector(val x: Float, val y: Float, val z: Float) {

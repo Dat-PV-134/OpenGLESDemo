@@ -20,6 +20,7 @@ object TextResourceReader {
             }
         } catch (e: Exception) {
             // resource not found
+            e.printStackTrace()
         }
         return body.toString()
     }
